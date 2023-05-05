@@ -8,7 +8,7 @@ class ListView extends View {
     super();
 
     this.classList.add('trip-list');
-    this.setAttribute('role', 'list')
+    this.setAttribute('role', 'list');
   }
 
   /**
