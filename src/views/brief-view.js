@@ -3,6 +3,10 @@ import {
   html
 } from '../utils.js';
 
+/**
+ * @extends {View<BriefViewState>}
+ */
+
 class BriefView extends View {
   constructor() {
     super();
@@ -14,13 +18,15 @@ class BriefView extends View {
    * @override
    */
   createHtml() {
+    const trip = this.state;
+
     return html `
       <div class="trip-info__main">
-      <h1 class="trip-info__title">Amsterdam — Chamonix — Geneva</h1>
-      <p class="trip-info__dates">Mar 18&nbsp;—&nbsp;20</p>
+      <h1 class="trip-info__title">${trip.places}</h1>
+      <p class="trip-info__dates">${trip.dates}</p>
     </div>
     <p class="trip-info__cost">
-      Total: €&nbsp;<span class="trip-info__cost-value">1230</span>
+      Total: €&nbsp;<span class="trip-info__cost-value">${trip.cost}</span>
     </p>
     `;
   }
