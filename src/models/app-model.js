@@ -1,40 +1,45 @@
 import Model from './model.js';
 import points from '../data/points.json';
-import destination from '../data/destinations.json';
+import destinations from '../data/destinations.json';
 import offerGroups from '../data/offers.json';
 
-
 class AppModel extends Model {
-  #points;
-  #destination;
-  #offerGroups;
-
-  constructor() {
-    super();
-
-    this.#points = points;
-    this.#destination = destination;
-    this.#offerGroups = offerGroups;
-  }
+  #points = points;
+  #destinations = destinations;
+  #offerGroups = offerGroups;
 
   /**
-   *@return {Array<Point>}
+   * @type {Record<SortType, (a: Point, b: Point) => number>}
    */
-  getPoints() {
+  #sortCallbackMap = {
+    day: (a, b) => Date.parse(a.startDateTime) - Date.parse(b.startDateTime),
+    event: () => 0,
+    time: (a, b) => AppModel.calcPointDuration(b) - AppModel.calcPointDuration(a),
+    price: (a, b) => b.basePrice - a.basePrice,
+    offers: () => 0,
+  };
 
-    return this.#points.map(AppModel.adaptPintForClient);
+  /**
+   * @param {{sort?: SortType}} [criteria]
+   * @return {Array<Point>}
+   */
+
+  getPoints(criteria = {}) {
+    const adaptedPoints = this.#points.map(AppModel.adaptPointForClient);
+    const sortCallback = this.#sortCallbackMap[criteria.sort] ?? this.#sortCallbackMap.day;
+
+    return adaptedPoints.sort(sortCallback);
   }
 
   /**
-   *@return {Array<Destination>}
+   * @return {Array<Destination>}
    */
   getDestinations() {
-
-    return structuredClone(this.#destination);
+    return structuredClone(this.#destinations);
   }
 
   /**
-   *@return {Array<OfferGroup>}
+   * @return {Array<OfferGroup>}
    */
   getOfferGroups() {
     // @ts-ignore
@@ -42,11 +47,18 @@ class AppModel extends Model {
   }
 
   /**
-   *@param {PointInSnakeCase} point
-   *@return {Point}
+   * @param {Point} point
+   * @return {number}
    */
-  static adaptPintForClient(point) {
+  static calcPointDuration(point) {
+    return Date.parse(point.endDateTime) - Date.parse(point.startDateTime);
+  }
 
+  /**
+   * @param {PointInSnakeCase} point
+   * @return {Point}
+   */
+  static adaptPointForClient(point) {
     return {
       id: point.id,
       type: point.type,
@@ -55,9 +67,8 @@ class AppModel extends Model {
       endDateTime: point.date_to,
       basePrice: point.base_price,
       offerIds: point.offers,
-      isFavorite: point.is_favorite
+      isFavorite: point.is_favorite,
     };
   }
 }
-
 export default AppModel;
