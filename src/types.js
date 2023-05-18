@@ -79,6 +79,7 @@
 /**
  * @typedef UrlParams
  * @prop {string} [edit]
+ * @prop {SortType} [sort]
  */
 /**
  * @typedef {import('./models/model.js').default} Model
