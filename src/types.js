@@ -72,7 +72,7 @@
  * @prop {string} endTime
  * @prop {string} duration
  * @prop {number} basePrice
- * @prop {Array<Offer & {isSelected: boolean}>} offers
+ * @prop {Array<Offer & {isSelected?: boolean}>} offers
  * @prop {boolean} isFavorite
  * @prop {boolean} isEditable
  */
