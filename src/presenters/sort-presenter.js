@@ -12,18 +12,15 @@ class SortPresenter extends Presenter {
      * @type {UrlParams}
      */
     const {sort = 'day'} = this.getUrlParams();
-
     /**
      * @type {Array<SortType>}
      */
     const types = ['day', 'event', 'time', 'price', 'offers'];
-
     const items = types.map((it) => ({
       value: it,
       isSelected: it === sort,
       isDisabled: it === 'event' || it === 'offers',
     }));
-
     return {items};
   }
 
@@ -31,21 +28,22 @@ class SortPresenter extends Presenter {
    * @override
    */
   addEventListeners() {
+    this.view.addEventListener('change', this.handleViewChange.bind(this));
+  }
+
+  /**
+   * @param {Event & {target: {value: SortType}}} event
+   */
+  handleViewChange(event) {
     /**
-     * @param {Event & {target: {value: SortType}}} event
+     * @type {UrlParams}
      */
-    const handleViewChange = (event) => {
-      /**
-       * @type {UrlParams}
-       */
-      const urlParams = this.getUrlParams();
 
-      urlParams.sort = event.target.value;
-      delete urlParams.edit;
-      this.setUrlParams(urlParams);
-    };
+    const urlParams = this.getUrlParams();
 
-    this.view.addEventListener('change', handleViewChange);
+    urlParams.sort = event.target.value;
+    delete urlParams.edit;
+    this.setUrlParams(urlParams);
   }
 }
 
