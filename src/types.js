@@ -1,7 +1,6 @@
 /**
  * @typedef {import('flatpickr/dist/types/options').Options} FlatpickrOptions
  */
-
 /**
  * @typedef {import('./utils.js').SafeHtml} SafeHtml
  */
@@ -14,6 +13,7 @@
  * @typedef {import('./views/list-view.js').default} ListView
  * @typedef {import('./views/card-view.js').default} CardView
  * @typedef {import('./views/editor-view.js').default} EditorView
+ * @typedef {import('./views/placeholder-view.js').default} PlaceholderView
  */
 
 /**
@@ -22,44 +22,36 @@
  * @prop {string} dates
  * @prop {string} cost
  */
-
 /**
  * @typedef AddViewState
  * @prop {boolean} isDisabled
  */
-
 /**
  * @typedef FilterViewState
  * @prop {Array<FilterItemViewState>} items
  */
-
 /**
  * @typedef FilterItemViewState
  * @prop {FilterType} value
  * @prop {boolean} isSelected
  * @prop {boolean} isDisabled
  */
-
 /**
  * @typedef {'everything' | 'future' | 'present' | 'past'} FilterType
  */
-
 /**
  * @typedef SortViewState
  * @prop {Array<SortItemViewState>} items
  */
-
 /**
  * @typedef SortItemViewState
  * @prop {SortType} value
  * @prop {boolean} isSelected
  * @prop {boolean} isDisabled
  */
-
 /**
  * @typedef {'day' | 'event' | 'time' | 'price' | 'offers'} SortType
  */
-
 /**
  * @typedef ListViewState
  * @prop {Array<PointViewState>} items
@@ -80,11 +72,20 @@
  * @prop {boolean} isFavorite
  * @prop {boolean} isEditable
  */
+
+/**
+ * @typedef PlaceholderViewState
+ * @prop {string} text
+ * @prop {boolean} [isHidden]
+ */
+
 /**
  * @typedef UrlParams
  * @prop {string} [edit]
+ * @prop {FilterType} [filter]
  * @prop {SortType} [sort]
  */
+
 /**
  * @typedef {import('./models/model.js').default} Model
  * @typedef {import('./models/app-model.js').default} AppModel
