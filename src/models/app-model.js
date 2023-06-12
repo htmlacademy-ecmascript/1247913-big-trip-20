@@ -87,12 +87,18 @@ class AppModel extends Model {
   /**
    * @param {Point} point
    */
-  addPoint(point) {
-    const adaptedPoint = AppModel.adaptPointForServer(point);
+  async addPoint(point) {
+    try {
+      this.notify('busy');
 
-    adaptedPoint.id = crypto.randomUUID();
+      const adaptedPoint = AppModel.adaptPointForServer(point);
+      const addedPoint = await this.#apiService.addPoint(adaptedPoint);
 
-    this.#points.push(adaptedPoint);
+      this.#points.push(addedPoint);
+
+    } finally {
+      this.notify('idle');
+    }
   }
 
   /**
@@ -108,10 +114,18 @@ class AppModel extends Model {
   /**
    * @param {string} id
    */
-  deletePoint(id) {
-    const index = this.#points.findIndex((it) => it.id === id);
+  async deletePoint(id) {
+    try {
+      this.notify('busy');
 
-    this.#points.splice(index, 1);
+      await this.#apiService.deletePoint(id);
+      const index = this.#points.findIndex((it) => it.id === id);
+
+      this.#points.splice(index, 1);
+
+    } finally {
+      this.notify('idle');
+    }
   }
 
   /**
