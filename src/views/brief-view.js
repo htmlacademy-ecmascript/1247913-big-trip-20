@@ -11,7 +11,7 @@ class BriefView extends View {
   constructor() {
     super();
 
-    this.classList.add('brief-view');
+    this.classList.add('trip-info');
   }
 
   /**
